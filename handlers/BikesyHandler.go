@@ -16,11 +16,11 @@ type BikesyHandler struct {
 }
 
 // NewBikesyHandler ...
-func NewBikesyHandler(logger *log.Logger, routeService services.RouteService) (Handler, error) {
+func NewBikesyHandler(logger *log.Logger, routeService services.RouteService) (Handler) {
 	return &BikesyHandler {
 		logger: logger,
 		routeService: routeService,
-	}, nil
+	}
 }
 
 func (h* BikesyHandler) handleError(statusCode int, errorMsg string, w http.ResponseWriter) {
@@ -73,8 +73,9 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
     }
     h.logger.Printf("Received request for %v %v %v %v", lat1, lng1, lat2, lng2)
 
+    h.routeService.SetProfile(profileType)
     // Get response from route service
-	resp, err := h.routeService.GetBikeRoute(lat1, lng2, lat2, lng2, profileType)
+	resp, err := h.routeService.GetBikeRoute(lat1, lng1, lat2, lng2)
 	if (err != nil) {
 		// treat any connection issues as 500 for alerts
 		h.logger.Printf("Error connecting to osrm service %v", err)
@@ -85,7 +86,7 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
 }
 
 // Handler implements Handler interface
-func (h *BikesyHandler) Handler()  (http.Handler, error) {
+func (h *BikesyHandler) Handler()  (http.Handler) {
 	h.logger.Print("Executing route handler.")
-	return http.HandlerFunc(h.handleRouteRequest), nil
+	return http.HandlerFunc(h.handleRouteRequest)
 }

@@ -12,12 +12,16 @@ import (
 	"blinktag.com/bikesy-wrapper/models"
 )
 
+// ProfileType defines how to direct service when specifying desired level of safety
 type ProfileType = string
+
+// ProfileTypeStandard is a medium-safe bicycle route
 const ProfileTypeStandard = ProfileType("STANDARD")
 
 // RouteService is interface for testing
 type RouteService interface {
-	GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string, profile ProfileType) (models.RouteResponse, error)
+	GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string) (models.RouteResponse, error)
+	SetProfile(profile ProfileType)
 }
 
 // RouteServiceImpl implements RouteService
@@ -25,6 +29,7 @@ type RouteService interface {
 type RouteServiceImpl struct {
 	logger *log.Logger
 	config *config.Configuration
+	profile ProfileType
 }
 
 // NewRouteService ...
@@ -32,17 +37,22 @@ func NewRouteService(config *config.Configuration, logger *log.Logger) RouteServ
 	return &RouteServiceImpl{
 		logger: logger,
 		config: config,
+		profile: ProfileType(""),
 	}
 }
 
-func (s *RouteServiceImpl) GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string, profile ProfileType) (models.RouteResponse, error) {
-	response := models.RouteResponse{}
-	if (profile != ProfileTypeStandard) {
-		return response, errors.New("Only supports standard profile for now.")
-	}
+// SetProfile specifies desired safety level
+func (s *RouteServiceImpl) SetProfile(profile ProfileType) {
+	s.profile = profile
+}
 
+// GetBikeRoute returns OSRM bike route given a safety profile
+func (s *RouteServiceImpl) GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string) (models.RouteResponse, error) {
+	response := models.RouteResponse{}
+	if (s.profile != ProfileTypeStandard) {
+		return response, errors.New("only supports standard profile for now")
+	}
 	urlBase := s.config.Osrm.Profiles.Standard.Host
-	
 	
 	// Get response from matching server
 	resp, err := http.Get(fmt.Sprintf("%s%s,%s;%s,%s?steps=false&annotations=true", urlBase, lng1, lat1, lng2, lat2))

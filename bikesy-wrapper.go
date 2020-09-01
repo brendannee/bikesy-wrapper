@@ -47,10 +47,10 @@ func NewMux(lc fx.Lifecycle, logger *log.Logger, config *config.Configuration) *
 
 // Register ...
 func Register(mux *http.ServeMux, logger *log.Logger, routeService services.RouteService) {
-    h, _ := handlers.NewHealthHandler(logger)
-    r, _ := handlers.NewBikesyHandler(logger, routeService)
-    hHandler, _ := h.Handler()
-    rHandler, _ := r.Handler()
+    h := handlers.NewHealthHandler(logger)
+    r := handlers.NewBikesyHandler(logger, routeService)
+    hHandler := h.Handler()
+    rHandler := r.Handler()
     mux.Handle("/health", hHandler)
     mux.Handle("/route", rHandler)
 }

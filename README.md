@@ -22,10 +22,15 @@ export CONFIG=./config/development.yaml; ./bikesy-wrapper
 TO BE COMPLETED
 
 ## Sample Request
-TO BE COMPLETED
+Assumes that OSRM services is properly hosted on heroku (see config).
+```
+curl "http://localhost:8888/route?lng1=-122.424474&lat1=37.766237&lng2=-122.443049&lat2=37.775325"
+```
 
 ## Tests and Linting
-TO BE COMPLETED 
-Install golint (https://github.com/golang/lint) and mockery (https://github.com/vektra/mockery).
 Ensure that $GOPATH/bin/ is in your $PATH variable to execute command.
-
+```
+brew install vektra/tap/mockery
+go get -u golang.org/x/lint/golint
+sh test.sh
+```
