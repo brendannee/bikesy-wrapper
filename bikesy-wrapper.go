@@ -11,6 +11,7 @@ import (
 
     "blinktag.com/bikesy-wrapper/config"
     "blinktag.com/bikesy-wrapper/handlers"
+    "blinktag.com/bikesy-wrapper/services"
 )
 
 // NewLogger ...
@@ -45,10 +46,13 @@ func NewMux(lc fx.Lifecycle, logger *log.Logger, config *config.Configuration) *
 }
 
 // Register ...
-func Register(mux *http.ServeMux, logger *log.Logger) {
-    h, _ := handlers.NewHealthHandler(logger)
-    hHandler, _ := h.Handler()
+func Register(mux *http.ServeMux, logger *log.Logger, routeService services.RouteService) {
+    h := handlers.NewHealthHandler(logger)
+    r := handlers.NewBikesyHandler(logger, routeService)
+    hHandler := h.Handler()
+    rHandler := r.Handler()
     mux.Handle("/health", hHandler)
+    mux.Handle("/route", rHandler)
 }
 
 func main() {
@@ -58,6 +62,7 @@ func main() {
             NewMux,
 
             config.LoadConfig,
+            services.NewRouteService,
         ),
         fx.Invoke(Register),
     )

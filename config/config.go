@@ -13,11 +13,25 @@ type Application struct {
 	Port string
 }
 
-// DB ...
+// Profile provides routing for each safety preference ("standard", etc.) to correct OSRM instance
+type Profile struct {
+	Host string
+}
+
+// Profiles ...
+type Profiles struct {
+	Standard Profile
+}
+
+// Osrm includes all profiles
+type Osrm struct {
+	Profiles Profiles
+}
 
 // Configuration ...
 type Configuration struct {
 	Application Application
+	Osrm Osrm
 }
 
 // LoadConfig reads development.yaml for now

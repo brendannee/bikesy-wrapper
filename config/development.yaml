@@ -1,3 +1,7 @@
 application:
   name: bikesy-wrapper
   port: 8888
+osrm:
+  profiles:
+    standard:
+      host: https://bikesy-api.herokuapp.com/route/v1/driving/
