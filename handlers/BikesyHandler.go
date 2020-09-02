@@ -87,13 +87,13 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
 	}
     routes := resp.Routes
     if len(routes) != 1 {
-        h.logger.Printf("Osrm data contains more than one route")
+        h.logger.Printf("Osrm data should contain exactly one route")
         h.handleError(500, "Bad response from OSRM server", w)
         return
     }
     legs := routes[0].Legs
     if len(legs) != 1 {
-        h.logger.Printf("Osrm data contains more than one leg")
+        h.logger.Printf("Osrm data should contain exactly one leg")
         h.handleError(500, "Bad response from OSRM server", w)
         return
     }

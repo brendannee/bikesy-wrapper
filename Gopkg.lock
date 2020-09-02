@@ -2,6 +2,25 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:3d0125a0d08fe02a117cde46645df86f98ea33761052645baaf2bcdfb5369921"
+  name = "github.com/alicebob/gopher-json"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a9ecdc9d1d3afa52b1f21db0ed0b568152d74cab"
+
+[[projects]]
+  digest = "1:7e00c4894ec4805e2a71bd368ddbc0cba52c959f5cf3d032a8d3a9c8d8d01050"
+  name = "github.com/alicebob/miniredis"
+  packages = [
+    ".",
+    "server",
+  ]
+  pruneopts = "UT"
+  revision = "3d7aa1333af56ab862d446678d93aaa6803e0938"
+  version = "v2.7.0"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -46,6 +65,19 @@
   pruneopts = "UT"
   revision = "f654a9112bbeac49ca2cd45bfbe11533c4666cf8"
   version = "v1.6.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:01a26748dccc17527154b3fd4410159a1bf106c7b328460819736d3872d76ae8"
+  name = "github.com/yuin/gopher-lua"
+  packages = [
+    ".",
+    "ast",
+    "parse",
+    "pm",
+  ]
+  pruneopts = "UT"
+  revision = "ee81675732da08c6c96265e65c88ef410081bfc0"
 
 [[projects]]
   digest = "1:19525e48b45af69339bd7c2812137dbd1e650a78fc09c7c75482e307d51aa28d"
@@ -152,7 +184,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/gomodule/redigo/redis",
+    "github.com/alicebob/miniredis",
     "github.com/stretchr/testify/mock",
     "go.uber.org/config",
     "go.uber.org/fx",

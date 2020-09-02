@@ -3,11 +3,11 @@ package services
 import (
 	"github.com/gomodule/redigo/redis"
 	"blinktag.com/bikesy-wrapper/config"
-	"log"
 	"strconv"
 	"math"
 )
 
+// ElevationService gets elevations for front-end display
 type ElevationService interface {
 	GetElevations(nodes []int) ([]float64, error)
 }
@@ -19,13 +19,13 @@ type ElevationServiceImpl struct {
 }
 
 // NewElevationService sets redis connection and returns ElevationService
-func NewElevationService(config *config.Configuration, logger *log.Logger) (ElevationService, error) {
+func NewElevationService(config *config.Configuration) ElevationService {
 	return &ElevationServiceImpl{
 		redisURL: config.Redis.URL,
-	}, nil
+	}
 }
 
-
+// GetElevations ...
 func (s *ElevationServiceImpl) GetElevations(nodes []int) ([]float64, error) {
 	c, err := redis.DialURL(s.redisURL)
 	if err != nil {
