@@ -28,10 +28,16 @@ type Osrm struct {
 	Profiles Profiles
 }
 
+// Redis stores connection info for elevation data
+type Redis struct {
+	URL string
+}
+
 // Configuration ...
 type Configuration struct {
 	Application Application
 	Osrm Osrm
+	Redis Redis
 }
 
 // LoadConfig reads development.yaml for now
@@ -39,6 +45,7 @@ func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	var c Configuration
 	path := os.Getenv("CONFIG")
 	port := os.Getenv("PORT")
+	redisURL := os.Getenv("REDIS_URL")
 	cfg, err := config.NewYAML(config.File(path))
 	if err != nil {
 		return &c, err
@@ -51,6 +58,10 @@ func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	if port != "" {
 		logger.Printf("Using custom port %v", port)
 		c.Application.Port = port
+	}
+	if redisURL != "" {
+		logger.Printf("Using custom redis url %v", redisURL)
+		c.Redis.URL = redisURL
 	}
 	return &c, nil
 }

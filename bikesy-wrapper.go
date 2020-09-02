@@ -46,9 +46,9 @@ func NewMux(lc fx.Lifecycle, logger *log.Logger, config *config.Configuration) *
 }
 
 // Register ...
-func Register(mux *http.ServeMux, logger *log.Logger, routeService services.RouteService) {
+func Register(mux *http.ServeMux, logger *log.Logger, routeService services.RouteService, elevationService services.ElevationService) {
     h := handlers.NewHealthHandler(logger)
-    r := handlers.NewBikesyHandler(logger, routeService)
+    r := handlers.NewBikesyHandler(logger, routeService, elevationService)
     hHandler := h.Handler()
     rHandler := r.Handler()
     mux.Handle("/health", hHandler)
@@ -63,6 +63,7 @@ func main() {
 
             config.LoadConfig,
             services.NewRouteService,
+            services.NewElevationService,
         ),
         fx.Invoke(Register),
     )

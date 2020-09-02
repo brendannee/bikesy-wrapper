@@ -7,19 +7,22 @@ import (
 	"net/url"
 
 	"blinktag.com/bikesy-wrapper/services"
+    "blinktag.com/bikesy-wrapper/models"
 )
 
 // BikesyHandler returns raw response from standard osrm router for now
 type BikesyHandler struct {
 	logger *log.Logger
 	routeService services.RouteService
+    elevationService services.ElevationService
 }
 
 // NewBikesyHandler ...
-func NewBikesyHandler(logger *log.Logger, routeService services.RouteService) (Handler) {
+func NewBikesyHandler(logger *log.Logger, routeService services.RouteService, elevationService services.ElevationService) (Handler) {
 	return &BikesyHandler {
 		logger: logger,
 		routeService: routeService,
+        elevationService: elevationService,
 	}
 }
 
@@ -82,7 +85,32 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
 		h.handleError(500, err.Error(), w)
 		return
 	}
-	h.handleOK(resp, w)
+    routes := resp.Routes
+    if len(routes) != 1 {
+        h.logger.Printf("Osrm data contains more than one route")
+        h.handleError(500, "Bad response from OSRM server", w)
+        return
+    }
+    legs := routes[0].Legs
+    if len(legs) != 1 {
+        h.logger.Printf("Osrm data contains more than one leg")
+        h.handleError(500, "Bad response from OSRM server", w)
+        return
+    }
+    nodes := legs[0].Annotation.Nodes
+    elevation, err := h.elevationService.GetElevations(nodes)
+    if (err != nil) {
+        // treat any redis issues as 500
+        h.logger.Printf("Error parsing elevation data %v", err)
+        h.handleError(500, err.Error(), w)
+        return
+    }
+    bikesyResponse := models.BikesyResponse{
+        Geometry: resp.Routes[0].Geometry,
+        Elevation: elevation,
+        Distance: resp.Routes[0].Legs[0].Annotation.Distance,
+    }
+	h.handleOK(bikesyResponse, w)
 }
 
 // Handler implements Handler interface

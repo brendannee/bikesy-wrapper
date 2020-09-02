@@ -12,7 +12,7 @@ import (
 )
 
 func TestBikesyHandlerRequiredParams(t *testing.T) {
-	handler := NewBikesyHandler(lib.TestLogger(t), &mocks.RouteService{})
+	handler := NewBikesyHandler(lib.TestLogger(t), &mocks.RouteService{}, &mocks.ElevationService{})
 	response := handler.Handler()
 	if response == nil {
 		t.Errorf("HTTP handler func should not be nil")

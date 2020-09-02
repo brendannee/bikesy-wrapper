@@ -11,6 +11,13 @@ $GOPATH/blinktag.com/bikesy-wrapper
 dep ensure -update
 ```
 
+## Local Redis Install for development
+See bikesy-api for examples of how to populate elevation data.  By default will talk to heroku, but can use local DB if needed.
+```
+brew install redis
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+```
+
 ## Run
 
 ```
