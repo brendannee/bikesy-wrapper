@@ -5,4 +5,5 @@ type BikesyResponse struct {
 	Geometry string
 	Elevation []float64
 	Distance []float32
+	Steps []Step
 }

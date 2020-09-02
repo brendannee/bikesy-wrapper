@@ -109,6 +109,7 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
         Geometry: resp.Routes[0].Geometry,
         Elevation: elevation,
         Distance: resp.Routes[0].Legs[0].Annotation.Distance,
+        Steps: resp.Routes[0].Legs[0].Steps,
     }
 	h.handleOK(bikesyResponse, w)
 }
