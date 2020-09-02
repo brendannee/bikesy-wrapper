@@ -41,3 +41,11 @@ brew install vektra/tap/mockery
 go get -u golang.org/x/lint/golint
 sh test.sh
 ```
+
+## Heroku
+```
+heroku git:remote -a bikesy-wrapper
+heroku container:login
+heroku container:push web
+heroku container:release web
+```
