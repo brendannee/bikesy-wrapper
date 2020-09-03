@@ -33,16 +33,20 @@ func TestConfigShouldLoadDefaultPort(t *testing.T) {
 	}
 }
 
-func TestConfigShouldLoadCustomPort(t *testing.T) {
+func TestConfigShouldLoadCustomPortAndRedis(t *testing.T) {
 	logger := testLogger(t)
 	os.Setenv("CONFIG", "development.yaml")
 	os.Setenv("PORT", "1234")
+	os.Setenv("REDIS_URL", "SOME_URL")
 	config, err := LoadConfig(logger)
 	if err != nil {
 		t.Errorf("Development config should load without error %v", err)
 	}
 	if config.Application.Port != "1234" {
 		t.Errorf("Config should allow specification of custom port")
+	}
+	if config.Redis.URL != "SOME_URL" {
+		t.Errorf("Config should allow specification of custom redis URL")
 	}
 }
 

@@ -2,78 +2,50 @@
 
 
 [[projects]]
-  digest = "1:d6afaeed1502aa28e80a4ed0981d570ad91b2579193404256ce672ed0a609e0d"
-  name = "github.com/beorn7/perks"
-  packages = ["quantile"]
+  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
   pruneopts = "UT"
-  revision = "37c8de3658fcb183f997c4e13e8337516ab753e6"
-  version = "v1.0.1"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
 
 [[projects]]
-  digest = "1:4a32eb57407190eced21a21abee9ce4d4ab6f0bf113ca61cb1cb2d549a65c985"
-  name = "github.com/golang/protobuf"
+  digest = "1:38ec74012390146c45af1f92d46e5382b50531247929ff3a685d2b2be65155ac"
+  name = "github.com/gomodule/redigo"
   packages = [
-    "proto",
-    "ptypes",
-    "ptypes/any",
-    "ptypes/duration",
-    "ptypes/timestamp",
+    "internal",
+    "redis",
   ]
   pruneopts = "UT"
-  revision = "d04d7b157bb510b1e0c10132224b616ac0e26b17"
-  version = "v1.4.2"
+  revision = "9c11da706d9b7902c6da69c592f75637793fe121"
+  version = "v2.0.0"
 
 [[projects]]
-  digest = "1:ff5ebae34cfbf047d505ee150de27e60570e8c394b3b8fdbb720ff6ac71985fc"
-  name = "github.com/matttproud/golang_protobuf_extensions"
-  packages = ["pbutil"]
+  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
   pruneopts = "UT"
-  revision = "c12348ce28de40eed0136aa2b644d0ee0650e56c"
-  version = "v1.0.1"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
 
 [[projects]]
-  digest = "1:eb04f69c8991e52eff33c428bd729e04208bf03235be88e4df0d88497c6861b9"
-  name = "github.com/prometheus/client_golang"
+  digest = "1:86ff4af7b6bb3d27c2e89b5ef8c139678acff1cad74a3c5235fc5af6b94fcc9e"
+  name = "github.com/stretchr/objx"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "35313a95ee26395aa17d366c71a2ccf788fa69b6"
+  version = "v0.3.0"
+
+[[projects]]
+  digest = "1:e1dec70f3d761a66432fa0c7f2b38a63cbe9d91761a50102def809ecf133cec4"
+  name = "github.com/stretchr/testify"
   packages = [
-    "prometheus",
-    "prometheus/internal",
-    "prometheus/promhttp",
+    "assert",
+    "mock",
   ]
   pruneopts = "UT"
-  revision = "170205fb58decfd011f1550d4cfb737230d7ae4f"
-  version = "v1.1.0"
-
-[[projects]]
-  digest = "1:0db23933b8052702d980a3f029149b3f175f7c0eea0cff85b175017d0f2722c0"
-  name = "github.com/prometheus/client_model"
-  packages = ["go"]
-  pruneopts = "UT"
-  revision = "7bc5445566f0fe75b15de23e6b93886e982d7bf9"
-  version = "v0.2.0"
-
-[[projects]]
-  digest = "1:4407525bde4e6ad9c1f60113d38cbb255d769e0ea506c8cf877db39da7753b3a"
-  name = "github.com/prometheus/common"
-  packages = [
-    "expfmt",
-    "internal/bitbucket.org/ww/goautoneg",
-    "model",
-  ]
-  pruneopts = "UT"
-  revision = "f39dfa2b000545b3a763b844012958c275a62266"
-  version = "v0.13.0"
-
-[[projects]]
-  digest = "1:5294a2f530e1e82234a20d85d262fa41e87e07e7717f65974c9162aca26d405b"
-  name = "github.com/prometheus/procfs"
-  packages = [
-    ".",
-    "internal/fs",
-    "internal/util",
-  ]
-  pruneopts = "UT"
-  revision = "3a900613711866765af641f387dad41b639dbdc4"
-  version = "v0.1.3"
+  revision = "f654a9112bbeac49ca2cd45bfbe11533c4666cf8"
+  version = "v1.6.1"
 
 [[projects]]
   digest = "1:19525e48b45af69339bd7c2812137dbd1e650a78fc09c7c75482e307d51aa28d"
@@ -140,18 +112,6 @@
   revision = "738671d3881b9731cc63024d5d88cf28db875626"
 
 [[projects]]
-  branch = "master"
-  digest = "1:c4765a992b0c2375e27dbb9e10b3a4a3284c05134a61ae3c56dc08125c073235"
-  name = "golang.org/x/sys"
-  packages = [
-    "internal/unsafeheader",
-    "unix",
-    "windows",
-  ]
-  pruneopts = "UT"
-  revision = "157a740278f41cac851f88b8aebe047c6fc2414f"
-
-[[projects]]
   digest = "1:c7e56a48f2c9e20a5ffa72d97319d4c5bd8f3c02ea2d13aad92c9c3aeecaa01b"
   name = "golang.org/x/text"
   packages = ["transform"]
@@ -170,45 +130,7 @@
     "go/types/typeutil",
   ]
   pruneopts = "UT"
-  revision = "5deb26317202b1b4cc6f9ce9958c402f95abea49"
-
-[[projects]]
-  digest = "1:fd328c5b52e433ea3ffc891bcc4f94469a82bf478558208db2b386aad8a304a1"
-  name = "google.golang.org/protobuf"
-  packages = [
-    "encoding/prototext",
-    "encoding/protowire",
-    "internal/descfmt",
-    "internal/descopts",
-    "internal/detrand",
-    "internal/encoding/defval",
-    "internal/encoding/messageset",
-    "internal/encoding/tag",
-    "internal/encoding/text",
-    "internal/errors",
-    "internal/fieldsort",
-    "internal/filedesc",
-    "internal/filetype",
-    "internal/flags",
-    "internal/genid",
-    "internal/impl",
-    "internal/mapsort",
-    "internal/pragma",
-    "internal/set",
-    "internal/strs",
-    "internal/version",
-    "proto",
-    "reflect/protoreflect",
-    "reflect/protoregistry",
-    "runtime/protoiface",
-    "runtime/protoimpl",
-    "types/known/anypb",
-    "types/known/durationpb",
-    "types/known/timestamppb",
-  ]
-  pruneopts = "UT"
-  revision = "3f7a61f89bb6813f89d981d1870ed68da0b3c3f1"
-  version = "v1.25.0"
+  revision = "d1954cc86c824f62dd7845fadb8b09b089425026"
 
 [[projects]]
   digest = "1:d7f1bd887dc650737a421b872ca883059580e9f8314d601f88025df4f4802dce"
@@ -218,11 +140,20 @@
   revision = "0b1645d91e851e735d3e23330303ce81f70adbe3"
   version = "v2.3.0"
 
+[[projects]]
+  branch = "v3"
+  digest = "1:229cb0f6192914f518cc1241ede6d6f1f458b31debfa18bf3a5c9e4f7b01e24b"
+  name = "gopkg.in/yaml.v3"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "eeeca48fe7764f320e4870d231902bf9c1be2c08"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/prometheus/client_golang/prometheus/promhttp",
+    "github.com/gomodule/redigo/redis",
+    "github.com/stretchr/testify/mock",
     "go.uber.org/config",
     "go.uber.org/fx",
   ]
