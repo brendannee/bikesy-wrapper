@@ -5,7 +5,7 @@ Wraps request to biksey-api, including routing for different safety profiles and
 ## Install
 
 Make sure code is in
-$GOPATH/blinktag.com/bikesy-wrapper
+$GOPATH/src/blinktag.com/bikesy-wrapper
 
 ```
 dep ensure -update

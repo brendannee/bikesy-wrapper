@@ -36,6 +36,7 @@ func (h* BikesyHandler) handleOK(response interface{}, w http.ResponseWriter) {
 
 func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	// won't error here
 	args, _ := url.ParseQuery(r.URL.RawQuery)
 

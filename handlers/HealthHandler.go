@@ -26,6 +26,7 @@ func (h* HealthHandler) handleError(statusCode int, errorMsg string, w http.Resp
 
 func (h* HealthHandler) writeOK(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	response := models.HealthHandlerResponse{Status: "ok"}
 	h.handleOK(response, w)
 }
