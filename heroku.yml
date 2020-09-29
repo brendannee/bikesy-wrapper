@@ -5,4 +5,4 @@ build:
     - go
 
 run:
-  web: bikesy-wrapper
+  web: export CONFIG=./config/development.yaml; bikesy-wrapper
