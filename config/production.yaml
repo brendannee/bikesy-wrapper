@@ -1,0 +1,6 @@
+application:
+  name: bikesy-wrapper
+osrm:
+  profiles:
+    standard:
+      host: https://bikesy-api.herokuapp.com/route/v1/driving/
