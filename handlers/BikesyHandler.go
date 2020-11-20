@@ -99,17 +99,17 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
         return
     }
     nodes := legs[0].Annotation.Nodes
-    elevation, err := h.elevationService.GetElevations(nodes)
+    elevationProfile, err := h.elevationService.GetElevationsAndDistances(nodes, resp.Routes[0].Legs[0].Annotation.Distance)
     if (err != nil) {
         // treat any redis issues as 500
         h.logger.Printf("Error parsing elevation data %v", err)
         h.handleError(500, err.Error(), w)
         return
     }
+
     bikesyResponse := models.BikesyResponse{
         Geometry: resp.Routes[0].Geometry,
-        Elevation: elevation,
-        Distance: resp.Routes[0].Legs[0].Annotation.Distance,
+        ElevationProfile: elevationProfile,
         Steps: resp.Routes[0].Legs[0].Steps,
     }
 	h.handleOK(bikesyResponse, w)

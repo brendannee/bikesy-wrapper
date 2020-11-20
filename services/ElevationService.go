@@ -3,13 +3,15 @@ package services
 import (
 	"github.com/gomodule/redigo/redis"
 	"blinktag.com/bikesy-wrapper/config"
+	"blinktag.com/bikesy-wrapper/models"
 	"strconv"
 	"math"
+	"fmt"
 )
 
 // ElevationService gets elevations for front-end display
 type ElevationService interface {
-	GetElevations(nodes []int) ([]float64, error)
+	GetElevationsAndDistances(nodes []int, distances []float32) ([]models.ElevationDistance, error)
 }
 
 // ElevationServiceImpl implements ElevationService
@@ -25,8 +27,9 @@ func NewElevationService(config *config.Configuration) ElevationService {
 	}
 }
 
-// GetElevations ...
-func (s *ElevationServiceImpl) GetElevations(nodes []int) ([]float64, error) {
+// GetElevationsAndDistances ...
+func (s *ElevationServiceImpl) GetElevationsAndDistances(nodes []int, distances []float32) ([]models.ElevationDistance, error) {
+	fmt.Printf("%v", s.redisURL)
 	c, err := redis.DialURL(s.redisURL)
 	if err != nil {
 	    return nil, err
@@ -40,18 +43,28 @@ func (s *ElevationServiceImpl) GetElevations(nodes []int) ([]float64, error) {
 	if redisErr != nil {
 	    return nil, redisErr
 	}
-	var elevations []float64
-	for _, eString := range v {
+	var elevations []models.ElevationDistance
+	distance := float32(0)
+	for i, eString := range v {
+		var elevation float32
 		if eString == "" {
 			// a value of -1 represents an unknown elevation
-			elevations = append(elevations, -1)
+			elevation = float32(-1)
 		} else {
 			eFloat, parseErr := strconv.ParseFloat(eString, 32)
 			if parseErr != nil {
 				return nil, parseErr
 			}
-			elevations = append(elevations, math.Round(eFloat*100)/100)
+			elevation = float32(math.Round(eFloat * 100) / 100)
+		}
+		elevations = append(elevations, models.ElevationDistance{
+			Elevation: elevation,
+			Distance: distance,
+		})
+		if i < len(distances) {
+			distance = distance + distances[i]
 		}
 	}
+
 	return elevations, nil
 }

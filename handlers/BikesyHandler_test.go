@@ -48,11 +48,11 @@ func TestBikesyHandlerOk(t *testing.T) {
 	mockRouteService := &mocks.RouteService{}
 	mockElevationService := &mocks.ElevationService{}
 	routeResponse := validRouteResponse()
-	var mockElevation []float64
+	var mockElevation []models.ElevationDistance
 
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(routeResponse, nil)
 	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
-	mockElevationService.On("GetElevations", routeResponse.Routes[0].Legs[0].Annotation.Nodes).Return(mockElevation, nil)
+	mockElevationService.On("GetElevationsAndDistances", routeResponse.Routes[0].Legs[0].Annotation.Nodes, routeResponse.Routes[0].Legs[0].Annotation.Distance).Return(mockElevation, nil)
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
@@ -74,7 +74,7 @@ func TestBikesyHandlerBadElevationResponse(t *testing.T) {
 
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(routeResponse, nil)
 	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
-	mockElevationService.On("GetElevations", routeResponse.Routes[0].Legs[0].Annotation.Nodes).Return(nil, errors.New("something happened"))
+	mockElevationService.On("GetElevationsAndDistances", routeResponse.Routes[0].Legs[0].Annotation.Nodes, routeResponse.Routes[0].Legs[0].Annotation.Distance).Return(nil, errors.New("something happened"))
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
