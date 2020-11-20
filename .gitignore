@@ -1,2 +1,4 @@
+.env
 bikesy-wrapper
 vendor
+.DS_Store
