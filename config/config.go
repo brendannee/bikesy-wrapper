@@ -43,10 +43,8 @@ type Configuration struct {
 // LoadConfig reads development.yaml for now
 func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	var c Configuration
-	err := godotenv.Load()
-	  if err != nil {
-	    log.Fatal("Error loading .env file")
-	  }
+	// ignore any errors - .env won't exist in production and is instead env var
+	godotenv.Load()
 
 	path := os.Getenv("CONFIG")
 	port := os.Getenv("PORT")
