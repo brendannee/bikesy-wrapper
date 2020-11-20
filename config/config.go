@@ -44,10 +44,7 @@ type Configuration struct {
 func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	var c Configuration
 	// ignore any errors - .env won't exist in production and is instead env var
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
+	godotenv.Load()
 
 	path := os.Getenv("CONFIG")
 	port := os.Getenv("PORT")

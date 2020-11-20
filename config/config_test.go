@@ -21,21 +21,9 @@ func (tw testWriter) Write(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func TestConfigShouldLoadDefaultPort(t *testing.T) {
-	logger := testLogger(t)
-	os.Setenv("CONFIG", "development.yaml")
-	config, err := LoadConfig(logger)
-	if err != nil {
-		t.Errorf("Development config should load without error %v", err)
-	}
-	if config.Application.Port != "8888" {
-		t.Errorf("If no port specified should be 8888")
-	}
-}
-
 func TestConfigShouldLoadCustomPortAndRedis(t *testing.T) {
 	logger := testLogger(t)
-	os.Setenv("CONFIG", "development.yaml")
+	os.Setenv("CONFIG", "config.yaml")
 	os.Setenv("PORT", "1234")
 	os.Setenv("REDIS_URL", "SOME_URL")
 	config, err := LoadConfig(logger)
