@@ -40,11 +40,14 @@ type Configuration struct {
 	Redis Redis
 }
 
-// LoadConfig reads development.yaml for now
+// LoadConfig reads config.yaml for non secret things, env variables (.env) for others
 func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	var c Configuration
 	// ignore any errors - .env won't exist in production and is instead env var
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		return nil, err
+	}
 
 	path := os.Getenv("CONFIG")
 	port := os.Getenv("PORT")
@@ -59,10 +62,7 @@ func LoadConfig(logger *log.Logger) (*Configuration, error) {
 
 	// use as secret only
 	c.Redis.URL = os.Getenv("REDIS_URL")
+	c.Application.Port = port
 
-	if port != "" {
-		logger.Printf("Using custom port %v", port)
-		c.Application.Port = port
-	}
 	return &c, nil
 }

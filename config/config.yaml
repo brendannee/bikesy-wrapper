@@ -1,6 +1,5 @@
 application:
   name: bikesy-wrapper
-  port: 8888
 osrm:
   profiles:
     standard:
