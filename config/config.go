@@ -3,7 +3,7 @@ package config
 import (
 	"log"
 	"os"
-
+	"github.com/joho/godotenv"
 	"go.uber.org/config"
 )
 
@@ -43,9 +43,13 @@ type Configuration struct {
 // LoadConfig reads development.yaml for now
 func LoadConfig(logger *log.Logger) (*Configuration, error) {
 	var c Configuration
+	err := godotenv.Load()
+	  if err != nil {
+	    log.Fatal("Error loading .env file")
+	  }
+
 	path := os.Getenv("CONFIG")
 	port := os.Getenv("PORT")
-	redisURL := os.Getenv("REDIS_URL")
 	cfg, err := config.NewYAML(config.File(path))
 	if err != nil {
 		return &c, err
@@ -55,13 +59,12 @@ func LoadConfig(logger *log.Logger) (*Configuration, error) {
 		return &c, err
 	}
 
+	// use as secret only
+	c.Redis.URL = os.Getenv("REDIS_URL")
+
 	if port != "" {
 		logger.Printf("Using custom port %v", port)
 		c.Application.Port = port
-	}
-	if redisURL != "" {
-		logger.Printf("Using custom redis url %v", redisURL)
-		c.Redis.URL = redisURL
 	}
 	return &c, nil
 }
