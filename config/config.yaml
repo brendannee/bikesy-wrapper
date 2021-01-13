@@ -3,4 +3,6 @@ application:
 osrm:
   profiles:
     standard:
-      host: https://bikesy-api.herokuapp.com/route/v1/driving/
+      host: https://bike-mapper-extra-safe-52gon.ondigitalocean.app/route/v1/driving/
+    extra_safe:
+      host: https://bike-mapper-sq63s.ondigitalocean.app/route/v1/driving/

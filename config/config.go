@@ -21,6 +21,7 @@ type Profile struct {
 // Profiles ...
 type Profiles struct {
 	Standard Profile
+	ExtraSafe Profile `yaml:"extra_safe"`
 }
 
 // Osrm includes all profiles

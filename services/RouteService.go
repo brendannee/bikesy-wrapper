@@ -18,6 +18,9 @@ type ProfileType = string
 // ProfileTypeStandard is a medium-safe bicycle route
 const ProfileTypeStandard = ProfileType("STANDARD")
 
+// ProfileTypeExtraSafe is for extra safety
+const ProfileTypeExtraSafe = ProfileType("EXTRA-SAFE")
+
 // RouteService is interface for testing
 type RouteService interface {
 	GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string) (models.RouteResponse, error)
@@ -49,10 +52,14 @@ func (s *RouteServiceImpl) SetProfile(profile ProfileType) {
 // GetBikeRoute returns OSRM bike route given a safety profile
 func (s *RouteServiceImpl) GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string) (models.RouteResponse, error) {
 	response := models.RouteResponse{}
-	if (s.profile != ProfileTypeStandard) {
+	var urlBase string
+	if (s.profile == ProfileTypeStandard) {
+		urlBase = s.config.Osrm.Profiles.Standard.Host
+	} else if (s.profile == ProfileTypeExtraSafe) {
+		urlBase = s.config.Osrm.Profiles.ExtraSafe.Host
+	} else {
 		return response, errors.New("only supports standard profile for now")
 	}
-	urlBase := s.config.Osrm.Profiles.Standard.Host
 	
 	// Get response from matching server
 	resp, err := http.Get(fmt.Sprintf("%s%s,%s;%s,%s?steps=true&annotations=true", urlBase, lng1, lat1, lng2, lat2))

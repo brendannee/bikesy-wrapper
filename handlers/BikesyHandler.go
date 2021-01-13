@@ -51,6 +51,14 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
     var val []string
     var ok bool
 
+    if val, ok = args["profile"]; ok {
+        if val[0] == "extra-safe" {
+            profileType = services.ProfileTypeExtraSafe
+        } else {
+            h.handleError(400, "Bad safety profile", w)
+            return
+        }
+    }
     if val, ok = args["lat1"]; ok {
     	lat1 = val[0]
     } else {
