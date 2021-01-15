@@ -15,11 +15,33 @@ import (
 // ProfileType defines how to direct service when specifying desired level of safety
 type ProfileType = string
 
-// ProfileTypeStandard is a medium-safe bicycle route
-const ProfileTypeStandard = ProfileType("STANDARD")
+// ProfileTypeHLowSLow is low hills low safety
+const ProfileTypeHLowSLow = ProfileType("HILLS_LOW_SAFETY_LOW")
 
-// ProfileTypeExtraSafe is for extra safety
-const ProfileTypeExtraSafe = ProfileType("EXTRA-SAFE")
+// ProfileTypeHLowSMed ...
+const ProfileTypeHLowSMed = ProfileType("HILLS_LOW_SAFETY_MED")
+
+// ProfileTypeHLowSHigh ...
+const ProfileTypeHLowSHigh = ProfileType("HILLS_LOW_SAFETY_HIGH")
+
+// ProfileTypeHMedSLow ...
+const ProfileTypeHMedSLow = ProfileType("HILLS_MED_SAFETY_LOW")
+
+// ProfileTypeHMedSMed ...
+const ProfileTypeHMedSMed = ProfileType("HILLS_MED_SAFETY_MED")
+
+// ProfileTypeHMedSHigh ...
+const ProfileTypeHMedSHigh = ProfileType("HILLS_MED_SAFETY_HIGH")
+
+// ProfileTypeHHighSLow ...
+const ProfileTypeHHighSLow = ProfileType("HILLS_HIGH_SAFETY_LOW")
+
+// ProfileTypeHHighSMed ...
+const ProfileTypeHHighSMed = ProfileType("HILLS_HIGH_SAFETY_MED")
+
+// ProfileTypeHHighSHigh ...
+const ProfileTypeHHighSHigh = ProfileType("HILLS_HIGH_SAFETY_HIGH")
+
 
 // RouteService is interface for testing
 type RouteService interface {
@@ -53,14 +75,30 @@ func (s *RouteServiceImpl) SetProfile(profile ProfileType) {
 func (s *RouteServiceImpl) GetBikeRoute(lat1 string, lng1 string, lat2 string, lng2 string) (models.RouteResponse, error) {
 	response := models.RouteResponse{}
 	var urlBase string
-	if (s.profile == ProfileTypeStandard) {
-		urlBase = s.config.Osrm.Profiles.Standard.Host
-	} else if (s.profile == ProfileTypeExtraSafe) {
-		urlBase = s.config.Osrm.Profiles.ExtraSafe.Host
+	if (s.profile == ProfileTypeHLowSLow) {
+		urlBase = s.config.Osrm.Profiles.HLowSLow.Host
+	} else if (s.profile == ProfileTypeHLowSMed) {
+		urlBase = s.config.Osrm.Profiles.HLowSMed.Host
+	} else if (s.profile == ProfileTypeHLowSHigh) {
+		urlBase = s.config.Osrm.Profiles.HLowSHigh.Host
+	} else if (s.profile == ProfileTypeHMedSLow) {
+		urlBase = s.config.Osrm.Profiles.HMedSLow.Host
+	} else if (s.profile == ProfileTypeHMedSMed) {
+		urlBase = s.config.Osrm.Profiles.HMedSMed.Host
+	} else if (s.profile == ProfileTypeHMedSHigh) {
+		urlBase = s.config.Osrm.Profiles.HMedSHigh.Host
+	} else if (s.profile == ProfileTypeHHighSLow) {
+		urlBase = s.config.Osrm.Profiles.HHighSLow.Host
+	} else if (s.profile == ProfileTypeHHighSMed) {
+		urlBase = s.config.Osrm.Profiles.HHighSMed.Host
+	} else if (s.profile == ProfileTypeHHighSHigh) {
+		urlBase = s.config.Osrm.Profiles.HHighSHigh.Host
 	} else {
-		return response, errors.New("only supports standard profile for now")
+		return response, errors.New("profile is not supported")
 	}
-	
+
+	s.logger.Printf("Requesting profile: %s, URL: %s", s.profile, urlBase)
+
 	// Get response from matching server
 	resp, err := http.Get(fmt.Sprintf("%s%s,%s;%s,%s?steps=true&annotations=true", urlBase, lng1, lat1, lng2, lat2))
 	if (err != nil || resp == nil) {

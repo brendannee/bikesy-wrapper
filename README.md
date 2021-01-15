@@ -26,16 +26,16 @@ PORT=8888
 
 ```
 go build
-export CONFIG=./config/development.yaml; ./bikesy-wrapper
+export CONFIG=./config/config.yaml; ./bikesy-wrapper
 ```
 
 ## Response
 TO BE COMPLETED
 
 ## Sample Request
-Assumes that OSRM services is properly hosted on heroku (see config).
+Assumes that OSRM services is properly hosted on heroku (see config).  Required params: lat1/lng1/lat2/lat2,hills,safety.  Hills and safety can be low, med, or high.
 ```
-curl "http://localhost:8888/route?lng1=-122.424474&lat1=37.766237&lng2=-122.443049&lat2=37.775325"
+curl "http://localhost:8888/route?lng1=-122.424474&lat1=37.766237&lng2=-122.443049&lat2=37.775325&hills=low&safety=low"
 ```
 
 ## Tests and Linting
@@ -53,3 +53,28 @@ heroku container:login
 heroku container:push web
 heroku container:release web
 ```
+
+## Digital Ocean
+
+If needed, ![create your registry in digital ocean](https://www.digitalocean.com/docs/container-registry/quickstart/registry).
+
+Install doctl and init repo (if needed).
+```
+brew install doctl
+doctl auth init --context bikesy
+doctl auth switch --context bikesy
+```
+
+Add new registry (one time)
+```
+doctl registry create bikesy
+doctl registry login
+```
+
+Deploy.
+```
+docker build -t bikesy-wrapper .
+docker tag bikesy-wrapper registry.digitalocean.com/bikesy/bikesy-wrapper
+docker push registry.digitalocean.com/bikesy/bikesy-wrapper
+```
+

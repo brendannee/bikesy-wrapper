@@ -2,7 +2,21 @@ application:
   name: bikesy-wrapper
 osrm:
   profiles:
-    standard:
-      host: https://bike-mapper-extra-safe-52gon.ondigitalocean.app/route/v1/driving/
-    extra_safe:
-      host: https://bike-mapper-sq63s.ondigitalocean.app/route/v1/driving/
+    h_low_s_low:
+      host: https://bike-mapper-h-low-s-low-czts6.ondigitalocean.app/route/v1/driving/
+    h_low_s_med:
+      host: https://bike-mapper-h-low-s-med-rxl84.ondigitalocean.app/route/v1/driving/
+    h_low_s_high:
+      host: https://bike-mapper-h-low-s-high-ubixs.ondigitalocean.app/route/v1/driving/
+    h_med_s_low:
+      host: https://bike-mapper-h-med-s-low-v82lv.ondigitalocean.app/route/v1/driving/
+    h_med_s_med:
+      host: https://bike-mapper-h-med-s-med-2bpym.ondigitalocean.app/route/v1/driving/
+    h_med_s_high:
+      host: https://bike-mapper-h-med-s-high-cz5nz.ondigitalocean.app/route/v1/driving/
+    h_high_s_low:
+      host: https://bike-mapper-h-high-s-low-p9hu3.ondigitalocean.app/route/v1/driving/
+    h_high_s_med:
+      host: https://bike-mapper-h-high-s-med-7p46c.ondigitalocean.app/route/v1/driving/
+    h_high_s_high:
+      host: https://bike-mapper-h-high-s-high-suejq.ondigitalocean.app/route/v1/driving/
