@@ -35,13 +35,13 @@ func TestRouteServiceOk(t *testing.T) {
 	cfg := lib.TestConfig("test")
 	cfg.Osrm = config.Osrm {
 		Profiles: config.Profiles{
-			Standard: config.Profile{
+			HLowSLow: config.Profile{
 				Host: fmt.Sprintf("%s/", server.URL),
 			},
 		},
 	}
 	s := NewRouteService(cfg, lib.TestLogger(t))
-	s.SetProfile(ProfileTypeStandard)
+	s.SetProfile(ProfileTypeHLowSLow)
 	_, err := s.GetBikeRoute("0", "0", "0", "0")
 	if err != nil {
 		t.Errorf("Route service should not error but did with %s", err.Error())
@@ -59,13 +59,13 @@ func TestRouteServiceNotOkBadOSRMResponse(t *testing.T) {
 	cfg := lib.TestConfig("test")
 	cfg.Osrm = config.Osrm {
 		Profiles: config.Profiles{
-			Standard: config.Profile{
+			HLowSLow: config.Profile{
 				Host: fmt.Sprintf("%s/", server.URL),
 			},
 		},
 	}
 	s := NewRouteService(cfg, lib.TestLogger(t))
-	s.SetProfile(ProfileTypeStandard)
+	s.SetProfile(ProfileTypeHLowSLow)
 	_, err := s.GetBikeRoute("0", "0", "0", "0")
 	if err == nil {
 		t.Errorf("Route service should error if OSRM status code != 200")
@@ -76,14 +76,14 @@ func TestRouteServiceBadOsrmRequest(t *testing.T) {
 	cfg := lib.TestConfig("test")
 	cfg.Osrm = config.Osrm {
 		Profiles: config.Profiles{
-			Standard: config.Profile{
+			HLowSLow: config.Profile{
 				Host: "A Bad URL",
 			},
 		},
 	}
 	// server.URL = fmt.Sprintf("%s/%s,%s;%s,%s?steps=false&annotations=true", server.URL, "0", "0", "0", "0")
 	s := NewRouteService(cfg, lib.TestLogger(t))
-	s.SetProfile(ProfileTypeStandard)
+	s.SetProfile(ProfileTypeHLowSLow)
 	_, err := s.GetBikeRoute("0", "0", "0", "0")
 	if err == nil {
 		t.Errorf("Route service should error with bad OSRM URL")

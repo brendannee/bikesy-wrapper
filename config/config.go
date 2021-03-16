@@ -20,7 +20,15 @@ type Profile struct {
 
 // Profiles ...
 type Profiles struct {
-	Standard Profile
+	HLowSLow Profile `yaml:"h_low_s_low"`
+	HLowSMed Profile `yaml:"h_low_s_med"`
+	HLowSHigh Profile `yaml:"h_low_s_high"`
+	HMedSLow Profile `yaml:"h_med_s_low"`
+	HMedSMed Profile `yaml:"h_med_s_med"`
+	HMedSHigh Profile `yaml:"h_med_s_high"`
+	HHighSLow Profile `yaml:"h_high_s_low"`
+	HHighSMed Profile `yaml:"h_high_s_med"`
+	HHighSHigh Profile `yaml:"h_high_s_high"`
 }
 
 // Osrm includes all profiles

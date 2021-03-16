@@ -41,15 +41,55 @@ func (h *BikesyHandler) handleRouteRequest(w http.ResponseWriter, r *http.Reques
 	args, _ := url.ParseQuery(r.URL.RawQuery)
 
 	// TO DO: define other profiles
-    profileType := services.ProfileTypeStandard
+    var profileType services.ProfileType
 
     var lat1 string
     var lng1 string
     var lat2 string
     var lng2 string
- 
+    var hills string
+    var safety string
+
     var val []string
     var ok bool
+
+    if val, ok = args["hills"]; ok {
+        hills = val[0]
+    } else {
+        h.handleError(400, "Request requires hill tolerance", w)
+        return 
+    }
+    if val, ok = args["safety"]; ok {
+        safety = val[0]
+    } else {
+        h.handleError(400, "Request requires safety tolerance", w)
+        return 
+    }
+
+    // check for valid combinations
+
+    if (hills == "low" && safety == "low") {
+        profileType = services.ProfileTypeHLowSLow
+    } else if (hills == "low" && safety == "med") {
+        profileType = services.ProfileTypeHLowSMed
+    } else if (hills == "low" && safety == "high") {
+        profileType = services.ProfileTypeHLowSHigh
+    } else if (hills == "med" && safety == "low") {
+        profileType = services.ProfileTypeHMedSLow
+    } else if (hills == "med" && safety == "med") {
+        profileType = services.ProfileTypeHMedSMed
+    } else if (hills == "med" && safety == "high") {
+        profileType = services.ProfileTypeHMedSHigh
+    } else if (hills == "high" && safety == "low") {
+        profileType = services.ProfileTypeHHighSLow
+    } else if (hills == "high" && safety == "med") {
+        profileType = services.ProfileTypeHHighSMed
+    } else if (hills == "high" && safety == "high") {
+        profileType = services.ProfileTypeHHighSHigh
+    } else {
+        h.handleError(400, "Bad combination of hill tolerance and safety", w)
+        return 
+    }
 
     if val, ok = args["lat1"]; ok {
     	lat1 = val[0]

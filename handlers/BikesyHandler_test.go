@@ -51,14 +51,14 @@ func TestBikesyHandlerOk(t *testing.T) {
 	var mockElevation []models.ElevationDistance
 
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(routeResponse, nil)
-	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
+	mockRouteService.On("SetProfile", services.ProfileType("HILLS_LOW_SAFETY_LOW")).Return()
 	mockElevationService.On("GetElevationsAndDistances", routeResponse.Routes[0].Legs[0].Annotation.Nodes, routeResponse.Routes[0].Legs[0].Annotation.Distance).Return(mockElevation, nil)
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
 		elevationService: mockElevationService,
 	}
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3&lng2=4", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3&lng2=4", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -73,14 +73,14 @@ func TestBikesyHandlerBadElevationResponse(t *testing.T) {
 	routeResponse := validRouteResponse()
 
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(routeResponse, nil)
-	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
+	mockRouteService.On("SetProfile", services.ProfileType("HILLS_LOW_SAFETY_LOW")).Return()
 	mockElevationService.On("GetElevationsAndDistances", routeResponse.Routes[0].Legs[0].Annotation.Nodes, routeResponse.Routes[0].Legs[0].Annotation.Distance).Return(nil, errors.New("something happened"))
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
 		elevationService: mockElevationService,
 	}
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3&lng2=4", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3&lng2=4", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -92,12 +92,12 @@ func TestBikesyHandlerBadElevationResponse(t *testing.T) {
 func TestBikesyHandlerBadOSRMRequest(t *testing.T) {
 	mockRouteService := &mocks.RouteService{}
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(models.RouteResponse{}, errors.New("something happened"))
-	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
+	mockRouteService.On("SetProfile", services.ProfileType("HILLS_LOW_SAFETY_LOW")).Return()
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
 	}
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3&lng2=4", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3&lng2=4", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -111,12 +111,12 @@ func TestBikesyHandlerBadOSRMResponseTooManyRoutes(t *testing.T) {
 	invalidResponse.Routes = append(invalidResponse.Routes, models.Route{})
 	mockRouteService := &mocks.RouteService{}
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(invalidResponse, nil)
-	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
+	mockRouteService.On("SetProfile", services.ProfileType("HILLS_LOW_SAFETY_LOW")).Return()
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
 	}
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3&lng2=4", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3&lng2=4", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -130,12 +130,12 @@ func TestBikesyHandlerBadOSRMResponseTooManyLegs(t *testing.T) {
 	invalidResponse.Routes[0].Legs = append(invalidResponse.Routes[0].Legs, models.Leg{})
 	mockRouteService := &mocks.RouteService{}
 	mockRouteService.On("GetBikeRoute", "1", "2", "3", "4").Return(invalidResponse, nil)
-	mockRouteService.On("SetProfile", services.ProfileType("STANDARD")).Return()
+	mockRouteService.On("SetProfile", services.ProfileType("HILLS_LOW_SAFETY_LOW")).Return()
 	handler := BikesyHandler{
 		logger: lib.TestLogger(t),
 		routeService: mockRouteService,
 	}
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3&lng2=4", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3&lng2=4", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -151,7 +151,7 @@ func TestBikesyHandlerAllArgsRequired(t *testing.T) {
 		routeService: mockRouteService,
 	}
 	// Missing Lng2
-	request := httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lat2=3", nil)
+	request := httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lat2=3", nil)
 	writer := httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response := writer.Result()
@@ -160,7 +160,7 @@ func TestBikesyHandlerAllArgsRequired(t *testing.T) {
 	}
 
 	// Missing Lat2
-	request = httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lng1=2&lng2=3", nil)
+	request = httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lng1=2&lng2=3", nil)
 	writer = httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response = writer.Result()
@@ -169,7 +169,7 @@ func TestBikesyHandlerAllArgsRequired(t *testing.T) {
 	}
 
 	// Missing Lng1
-	request = httptest.NewRequest("GET", "http://localhost:8888/route?lat1=1&lat2=2&lng2=3", nil)
+	request = httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lat1=1&lat2=2&lng2=3", nil)
 	writer = httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response = writer.Result()
@@ -178,7 +178,7 @@ func TestBikesyHandlerAllArgsRequired(t *testing.T) {
 	}
 
 	// Missing Lat1
-	request = httptest.NewRequest("GET", "http://localhost:8888/route?lng1=1&lat2=2&lng2=3", nil)
+	request = httptest.NewRequest("GET", "http://localhost:8888/route?hills=low&safety=low&lng1=1&lat2=2&lng2=3", nil)
 	writer = httptest.NewRecorder()
 	handler.handleRouteRequest(writer, request)
 	response = writer.Result()
