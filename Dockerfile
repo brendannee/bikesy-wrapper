@@ -4,7 +4,7 @@ WORKDIR $GOPATH/src/blinktag.com/bikesy-wrapper
 
 COPY . .
 RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-RUN go build
+RUN env GOOS=linux GOARCH=amd64 go build
 
 CMD [ "./bikesy-wrapper" ]
 

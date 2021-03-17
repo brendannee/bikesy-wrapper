@@ -17,7 +17,7 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 ## Configure
 Create a .env file with the following:
 ```
-REDIS_URL=
+REDIS_URL=redis://127.0.0.1:6379
 CONFIG=./config/config.yaml
 PORT=8888
 ```
@@ -73,7 +73,7 @@ doctl registry login
 
 Deploy.
 ```
-docker build -t bikesy-wrapper .
+env GOOS=linux GOARCH=amd64 docker build -t bikesy-wrapper .
 docker tag bikesy-wrapper registry.digitalocean.com/bikesy/bikesy-wrapper
 docker push registry.digitalocean.com/bikesy/bikesy-wrapper
 ```
