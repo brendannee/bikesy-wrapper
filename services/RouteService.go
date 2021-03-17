@@ -100,7 +100,7 @@ func (s *RouteServiceImpl) GetBikeRoute(lat1 string, lng1 string, lat2 string, l
 	s.logger.Printf("Requesting profile: %s, URL: %s", s.profile, urlBase)
 
 	// Get response from matching server
-	resp, err := http.Get(fmt.Sprintf("%s%s,%s;%s,%s?steps=true&annotations=true", urlBase, lng1, lat1, lng2, lat2))
+	resp, err := http.Get(fmt.Sprintf("%s%s,%s;%s,%s?steps=true&annotations=true&overview=full", urlBase, lng1, lat1, lng2, lat2))
 	if (err != nil || resp == nil) {
 		s.logger.Printf("Error connecting to osrm service %v", err)
 		return response, err
